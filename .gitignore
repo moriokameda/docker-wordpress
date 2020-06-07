@@ -1,0 +1,21 @@
+.DS_Store
+
+# wordpressの設定
+src/.htaccess
+src/index.php
+src/license.txt
+src/readme.html
+src/wp-*.php
+src/xmlrpc.php
+src/wp-content/languages
+
+
+# wordpress関連のサイト
+/src/wp-admin
+/src/wp-includes
+
+# private
+private
+
+# default theme
+src/wp-content/themes/twenty*
