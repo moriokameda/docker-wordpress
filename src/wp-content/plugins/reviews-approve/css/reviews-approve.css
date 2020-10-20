@@ -1,0 +1,84 @@
+body {
+    font-size: 16px;
+    color: #0b0b0b;
+}
+/*星のスタイル*/
+.star_rating {
+    color: #FF9D00;
+}
+
+.star {
+    font-size: 1.2em;
+}
+
+.sum_reviewer {
+    color: #111;
+    font-size: 0.8em;
+}
+
+/*インプットタイプ★★★★★*/
+.stars {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.stars input[type='radio'] {
+    display: none;
+}
+
+.stars label {
+    padding-right: 0px;
+    color: #ddd;
+    border-color: #FF9D00;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.stars label:hover,
+.stars label:hover ~ label,
+.stars input[type='radio']:checked ~ label {
+    color: #FF9D00;
+}
+
+/*レビュー一覧表示*/
+.review_list {
+    list-style: none;
+    background: aliceblue;
+    border: 1px solid cornsilk;
+}
+
+.column-rate {
+    width: 10%;
+}
+
+.review_list form {
+    margin-left: 10px;
+}
+
+.review_date {
+    margin-left: 5px;
+    color: #0b0b0b;
+}
+
+.btn {
+    color: #fff;
+    transition: opacity 0.2s;
+    padding: 3px 4px;
+    font-size: 1rem;
+    border-radius: 50rem;
+    border: 1px solid #45A788;
+    cursor: pointer;
+}
+.btn:hover {
+    opacity: 0.8;
+}
+.approve_review {
+    background-color: #45A788;
+}
+.reject {
+    background-color: #aa0f00;
+}
+.review_approve_status {
+    margin-left: 5px;
+}

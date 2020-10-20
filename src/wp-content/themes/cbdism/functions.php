@@ -169,7 +169,7 @@ function add_my_ajaxurl() {
  */
 function get_reviews($post_id) {
   global $wpdb;
-  $results = $wpdb->get_results("SELECT * FROM wp_reviews WHERE review_post_id = $post_id ORDER BY review_id");
+  $results = $wpdb->get_results("SELECT * FROM wp_reviews WHERE review_post_id = $post_id AND review_status = 2 ORDER BY review_id");
 
   return $results;
 }
@@ -196,6 +196,7 @@ function regist_review() {
   $nickname = $_POST['nickname'];
   $rate_value = $_POST['rate_value'];
   $review_comment = $_POST['review_comment'];
+  $review_status = 0;
   $now_time = date("Y/m/d H:i:s");
   $table = $wpdb->prefix . 'reviews';
   // echo $nickname;
@@ -206,6 +207,7 @@ function regist_review() {
       'review_author' => urlencode($nickname),
       'review_rating' => $rate_value,
       'review_comment' => urlencode($review_comment),
+      'review_status' => $review_status,
       'create_at' => $now_time,
       'update_at' => $now_time
     )
@@ -226,7 +228,7 @@ add_action('wp_ajax_nopriv_regist_review','regist_review');
  */
 function get_avarage_rate($post_id) {
   global $wpdb;
-  $avarage_rate = $wpdb->get_var("SELECT AVG(review_rating) FROM wp_reviews WHERE review_post_id = $post_id");
+  $avarage_rate = $wpdb->get_var("SELECT AVG(review_rating) FROM wp_reviews WHERE review_post_id = $post_id AND review_status = 2");
   return $avarage_rate;
 }
 
@@ -235,7 +237,7 @@ function get_avarage_rate($post_id) {
  */
 function get_count_reviews($post_id) {
   global $wpdb;
-  $count_reviews = $wpdb->get_var("SELECT COUNT(review_id) FROM wp_reviews WHERE review_post_id = $post_id");
+  $count_reviews = $wpdb->get_var("SELECT COUNT(review_id) FROM wp_reviews WHERE review_post_id = $post_id AND review_status = 2");
   return $count_reviews;
 }
 
@@ -244,7 +246,7 @@ function get_count_reviews($post_id) {
  */
 function get_percentage_reviews($post_id, $num) {
   global $wpdb;
-  $percentage_review = $wpdb->get_var("SELECT COUNT(review_id) FROM wp_reviews WHERE review_post_id = $post_id AND review_rating = $num");
+  $percentage_review = $wpdb->get_var("SELECT COUNT(review_id) FROM wp_reviews WHERE review_post_id = $post_id AND review_rating = $num AND review_status = 2");
   return $percentage_review;
 }
 
@@ -259,6 +261,7 @@ function create_review_table() {
     review_post_id int NOT NULL,
     review_author VARCHAR(255) NOT NULL,
     review_rating int NOT NULL,
+    review_status int NOT NULL,
     review_comment text,
     create_at DATETIME,
     update_at DATETIME,
