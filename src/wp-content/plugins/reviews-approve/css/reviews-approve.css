@@ -62,22 +62,26 @@ body {
 }
 
 .btn {
+    margin-top: 5px;
     color: #fff;
     transition: opacity 0.2s;
-    padding: 3px 4px;
-    font-size: 1rem;
+    /*padding: 3px 4px;*/
     border-radius: 50rem;
-    border: 1px solid #45A788;
+    border: 1px solid;
     cursor: pointer;
+    text-align: center;
 }
 .btn:hover {
     opacity: 0.8;
 }
 .approve_review {
     background-color: #45A788;
+    margin-right: 5px;
+    border: 1px solid #45A788;
 }
 .reject {
     background-color: #aa0f00;
+    border: 1px solid #aa0f00;
 }
 .review_approve_status {
     margin-left: 5px;

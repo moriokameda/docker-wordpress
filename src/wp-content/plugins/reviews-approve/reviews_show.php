@@ -159,17 +159,25 @@ class Reviews_show
             <table class="wp-list-table widefat fixed striped table-view-list comments">
                 <thead>
                 <tr>
-                    <th id="cb" class="manage-column column-cb check-column">
+                    <th id="cb" class="manage-column column-cb check-column col-1">
                         <label class="screen-reader-text">全て選択</label>
-                        <input id="cb-select-all-1" type="checkbox">
+                        <input id="cb-select-all" type="checkbox">
                     </th>
-                    <th scope="col" id="author" class="manage-column column-author">投稿者</th>
-                    <th scope="col" id="rate" class="manage-column column-rate">レート</th>
-                    <th scope="col" id="comment" class="manage-column column-comment column-primary">レビュー内容</th>
-                    <th scope="col" id="date" class="manage-column column-date sortable desc">レビュー日</th>
-                    <th scope="col" id="status" class="manage-column column-status sortable desc">レビューステータス</th>
+                    <th scope="col" id="author" class="manage-column column-author" style="width: 7%;">投稿者</th>
+                    <th scope="col" id="rate" class="manage-column column-rate" style="width: 6%">レート</th>
+                    <th scope="col" id="comment" class="manage-column column-comment column-primary"
+                        style="width: 40%;">レビュー内容
+                    </th>
+                    <th scope="col" id="date" class="manage-column column-date sortable desc" style="width: 11%;">
+                        レビュー日
+                    </th>
+                    <th scope="col" id="status" class="manage-column column-status sortable desc" style="width: 10%;">
+                        ステータス
+                    </th>
 
-                    <th scope="col" id="response" class="manage-column column-response sortable desc">投稿記事</th>
+                    <th scope="col-3" id="response" class="manage-column column-response sortable desc"
+                        style="width: 30%;">投稿先
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -185,41 +193,44 @@ class Reviews_show
                     <tr class="review_list">
                         <form>
 
-                            <td>
+                            <td class="col-1">
                                 <input type="checkbox" name="<?php echo $review->review_id; ?>"
                                        value="<?php echo $review->review_id; ?>"
                                        class="approve_check">
                             </td>
-                            <td>
+                            <td class="col-1">
                                 <input type="hidden" value="<?php echo $review->review_id; ?>"
                                        id="<?php echo $review->review_id; ?>">
                                 <p class="nickname"><span><?php echo urldecode($review->review_author); ?></span></p>
                             </td>
-                            <td>
+                            <td class="col-1">
                                 <div class='star_rating'>
                                     <?php echo $stars; ?>
                                 </div>
                             </td>
-                            <td class="review_comments__wrap">
+                            <td class="review_comments__wrap col-4">
                                 <div class="review_comments">
                                     <?php echo urldecode($review->review_comment); ?>
                                 </div>
-                                <!--                                <div class="review_approve_status">-->
-                                <!--                                    <a id="approve" class="btn button-success approve_review">-->
-                                <!--                                        承認する-->
-                                <!--                                    </a>-->
-                                <!--                                    <a id="reject" class="btn button-dark reject">-->
-                                <!--                                        拒否する-->
-                                <!--                                    </a>-->
-                                <!--                                </div>-->
                             </td>
-                            <td class="review_date__wrap">
+                            <td class="review_date__wrap col-1">
                                 <span class="review_date"><?php echo $review->create_at; ?></span>
                             </td>
 
-                            <td class="review_approve_status">
-                                <span><?php echo $this->show_status($review->review_status); ?></span></td>
-                            <td class="related_post">
+                            <td class="review_approve_status col-1">
+                                <span><?php echo $this->show_status($review->review_status); ?></span>
+<!--                                <div class="review_approve_status">-->
+<!--                                    --><?php //if (!$review->review_status == 2): ?>
+<!--                                        <a id="approve" class="btn button-success approve_review">-->
+<!--                                            承認する-->
+<!--                                        </a>-->
+<!--                                        <a id="reject" class="btn button-dark reject">-->
+<!--                                            拒否する-->
+<!--                                        </a>-->
+<!--                                    --><?php //endif; ?>
+<!--                                </div>-->
+                            </td>
+                            <td class="related_post col-3">
                                 <?php echo $post->post_title; ?>
                             </td>
                         </form>
@@ -227,9 +238,7 @@ class Reviews_show
                 <?php endforeach; ?>
                 </tbody>
             </table>
-            <button class="button button-primary checked_submit" style="display: none">
-                チェックしたものをまとめて承認する。
-            </button>
+            <button class="button all_check">一括承認</button>
         </div>
 
         <style>
@@ -242,7 +251,10 @@ class Reviews_show
                 // レビューAjax処理
                 //const ajax_url = "<?php //echo $http . $_SERVER["HTTP_HOST"];?>/wp-admin/admin-ajax.php";
                 const ajax_url = "https://cbdism.info/wp-admin/admin-ajax.php";
-                // レビュー投稿処理
+
+                /**
+                 * 一括承認処理
+                 */
                 jQuery('.all_check').click(function () {
                     var checked = jQuery('[class="approve_check"]:checked').map(function () {
                         return parseInt(jQuery(this).val());
@@ -263,6 +275,17 @@ class Reviews_show
                         console.log(err);
                         window.alert(err);
                     })
+                });
+
+                /**
+                 * 一括承認チェック処理
+                 */
+                jQuery('#cb-select-all').click(function () {
+                    if (jQuery('#cb-select-all').prop('checked')) {
+                        jQuery('.approve_check').prop('checked', true);
+                    } else {
+                        jQuery('.approve_check').prop('checked', false);
+                    }
                 });
 
                 // var post_id = jQuery("#post_id").val();
@@ -310,24 +333,3 @@ function add_reviews_page()
 /**
  * CSSファイルの初期読み込み
  */
-//function add_init()
-//{
-//    wp_register_style('reviews_approve', plugins_url('css/reviews-approve.css', __FILE__));
-//    wp_enqueue_style('reviews_approve');
-//}
-
-//function show_status($review_status)
-//{
-//    $review_status__message = "";
-//    switch ($review_status) {
-//        case 0:
-//            $review_status__message = "未承認";
-//            break;
-//        case 1:
-//            $review_status__message = "表示拒否";
-//        case 2:
-//            $review_status__message = "承認済";
-//    }
-//    return $review_status__message;
-//}
-//
