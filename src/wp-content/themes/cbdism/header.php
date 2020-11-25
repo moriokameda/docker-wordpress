@@ -4,7 +4,7 @@
   <?php wp_head();?>
   <meta charset="UTF-8">
   <title><?php wp_title('|', true, 'right'); bloginfo('name');?></title>
-  <link rel="shortcut icon" href="http://cbdism.info/wp-content/uploads/2020/08/favicon.png">
+  <link rel="shortcut icon" href="https://cbdism.info/wp-content/uploads/2020/08/favicon.png">
   <meta name="viewport" content="width=device-width">
   <meta name="description" content="<?php bloginfo('description'); ?>">
   <meta name="Keywords" content="<?php bloginfo('keywords');?>">
